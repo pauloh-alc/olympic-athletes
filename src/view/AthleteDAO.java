@@ -15,7 +15,7 @@ import javax.swing.JTextField;
 import model.OlympicAthlete;
 
 @SuppressWarnings("serial")
-public class CreateAthlete extends JFrame{
+public class AthleteDAO extends JFrame{
 	
 	private final int SCREEN_WIDTH = 400;
 	private final int SCREEN_HEIGHT = 230;
@@ -27,8 +27,11 @@ public class CreateAthlete extends JFrame{
 	
 	private JTextField nameText;
 	private JTextField ageText;
+	private JTextField sexText;
+	private JTextField comitteeText;
+	private JTextField sportText;
 	
-	public CreateAthlete() {
+	public AthleteDAO() {
 		formatCreateAthlete();
 	}
 	
@@ -62,28 +65,6 @@ public class CreateAthlete extends JFrame{
 		actionInExit(buttonExit);
 	}
 	
-	private void actionInSave(Button buttonSave) {
-		buttonSave.addActionListener(new ActionListener() {
-			
-			OlympicAthlete athlete = new OlympicAthlete();
-			
-			@Override
-			public void actionPerformed(ActionEvent e) {
-				//athlete.setNome();
-				System.out.println(athlete.getNome());
-			}
-		});
-		
-	}
-	
-	private void actionInClear(Button buttonClear) {
-	
-		
-	}
-	
-	private void actionInExit(Button buttonExit) {
-		
-	}
 
 	public void createContainerInput() {
 
@@ -116,7 +97,7 @@ public class CreateAthlete extends JFrame{
 		sexPanel.setBackground(BACKGROUND_COLOR);
 	
 		JLabel sexLabel = new JLabel("Sex: ");
-		JTextField sexText = new JTextField(30);
+		sexText = new JTextField(30);
 		sexPanel.add(sexLabel); 
 		sexPanel.add(sexText);
 		add(sexPanel);
@@ -128,7 +109,7 @@ public class CreateAthlete extends JFrame{
 		sportPanel.setBackground(BACKGROUND_COLOR);
 		
 		JLabel sportLabel = new JLabel("Sport: ");
-		JTextField sportText = new JTextField(30);
+		sportText = new JTextField(30);
 		sportPanel.add(sportLabel); 
 		sportPanel.add(sportText);
 		add(sportPanel);
@@ -141,9 +122,32 @@ public class CreateAthlete extends JFrame{
 		comitteePanel.setBackground(BACKGROUND_COLOR);
 		
 		JLabel comitteeLabel = new JLabel("Comittee: ");
-		JTextField comitteeText = new JTextField(28);
+		comitteeText = new JTextField(28);
 		comitteePanel.add(comitteeLabel); 
 		comitteePanel.add(comitteeText);
 		add(comitteePanel);
+	}
+	
+	private void actionInSave(Button buttonSave) {
+		buttonSave.addActionListener(new ActionListener() {
+			
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				addAthleteToDataBase();
+			}
+
+		});
+	}
+	
+	private void actionInClear(Button buttonClear) {}
+	
+	private void actionInExit(Button buttonExit) {}
+	
+	private void addAthleteToDataBase() {
+		OlympicAthlete athlete = new OlympicAthlete();
+		
+		athlete.setNome(nameText.getText());
+		
 	}
 }
