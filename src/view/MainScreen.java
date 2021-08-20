@@ -64,7 +64,7 @@ public class MainScreen extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new CreateAthlete();
+				new AthleteDAO();
 			}
 		});
 	}
