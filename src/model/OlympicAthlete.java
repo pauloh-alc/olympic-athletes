@@ -1,21 +1,22 @@
 package model;
 
-import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
 
 public class OlympicAthlete {
 	
-	private String nome;
+	private String name;
 	private int age;
 	private String sex;
-	private String comittee;
+	private String committee;
 	private String sport;
-	private HashMap<String, String> medals = new HashMap<>();
+	private List<Integer> medals = new ArrayList<>();
 	
-	public String getNome() {
-		return nome;
+	public String getName() {
+		return name;
 	}
-	public void setNome(String nome) {
-		this.nome = nome;
+	public void setName(String nome) {
+		this.name = nome;
 	}
 	public int getAge() {
 		return age;
@@ -29,16 +30,22 @@ public class OlympicAthlete {
 	public void setSex(String sex) {
 		this.sex = sex;
 	}
-	public String getComittee() {
-		return comittee;
-	}
-	public void setComittee(String comittee) {
-		this.comittee = comittee;
-	}
 	public String getSport() {
 		return sport;
 	}
 	public void setSport(String sport) {
 		this.sport = sport;
+	}
+	public String getCommittee() {
+		return committee;
+	}
+	public void setCommittee(String committee) {
+		this.committee = committee;
+	}
+	public List<Integer> getMedals() {
+		return medals;
+	}
+	public void setMedals(Integer qttMedal) {
+		medals.add(qttMedal);
 	}
 }

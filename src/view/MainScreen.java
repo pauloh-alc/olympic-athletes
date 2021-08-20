@@ -9,6 +9,8 @@ import java.awt.event.ActionListener;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
+import connection.ConnectionFactory;
+
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame{
 	
@@ -64,16 +66,28 @@ public class MainScreen extends JFrame{
 			
 			@Override
 			public void actionPerformed(ActionEvent e) {
-				new AthleteDAO();
+				new CreateAthlete();
 			}
 		});
 	}
 	
-	private void actionInReadAthlete(Button buttonReadAthlete) {}
+	private void actionInReadAthlete(Button buttonReadAthlete) {
+		buttonReadAthlete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new ReadAthlete();
+			}
+		});
+	}
+	
+	
 	private void actionInUpdateAthlete(Button buttonUpdateAthlete) {}
 	private void actionInDeleteAthlete(Button buttonDeleteAthlete) {}
 	
 	public static void main(String[] args) {
 		new MainScreen();
+		ConnectionFactory.createDataBase();     
+		ConnectionFactory.createTableAthlete();
 	}
 }
