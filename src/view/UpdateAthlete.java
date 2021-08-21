@@ -1,11 +1,13 @@
 package view;
 
-import java.awt.BorderLayout;
+
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
-import java.awt.GridLayout;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.sql.Connection;
+import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
@@ -13,7 +15,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.swing.BoxLayout;
-import javax.swing.JButton;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
@@ -29,15 +30,19 @@ import model.OlympicAthlete;
 @SuppressWarnings("serial")
 public class UpdateAthlete extends JFrame {
 	
+	private final Color BACKGROUND_COLOR = new Color(143,188,143);
+	private final Color COLOR_GREEN_LIGHT_1 = new Color(144,238,144);
+	private final Color COLOR_GRAY = new Color(220,220,220);
+	private final Color COLOR_RED = new Color(255,99,71);
 	
-	private final Color COLOR_GREEN_LIGHT = new Color(144,238,144);
 	private final int SCREEN_WIDTH = 480;
-	private final int SCREEN_HIGHT = 410;
+	private final int SCREEN_HIGHT = 430;
 	
 	private List<OlympicAthlete> listAthletes = new ArrayList<>();; 
 	private AthleteTableModel tableModel = new AthleteTableModel(listAthletes);;
 	private JTable table = new JTable(tableModel);;
 	
+	private JTextField idText;
 	private JTextField nameText;
 	private JTextField ageText;
 	private JTextField sexText;
@@ -64,25 +69,181 @@ public class UpdateAthlete extends JFrame {
 		
 		JPanel panel = new JPanel();
 		add(panel);
-		//panel.add(table);
+		panel.add(table);
 		table.setPreferredScrollableViewportSize(new Dimension(440, 100));
-		table.setBackground(COLOR_GREEN_LIGHT);
+		table.setBackground(COLOR_GREEN_LIGHT_1);
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table);
 		panel.add(scroll);
 		
-		nameText = new JTextField(15);
-		JLabel name = new JLabel("name");
-		JPanel panel2 = new JPanel();
-		panel2.add(name);
-		panel2.add(nameText);
-		add(panel2);
-	
+		formatInput();
+		
+		JPanel container = new JPanel();
+		
+		
+		formatButtons(container);
 		
 		setVisible(true);
 	}
 	
+	public void formatInput() {
+		
+		// Id
+		JPanel idPanel = new JPanel();
+		idPanel.setLayout(new BoxLayout(idPanel, BoxLayout.X_AXIS));
+			
+		JLabel idLabel = new JLabel("ENTER THE ID: ");
+		idLabel.setForeground(BACKGROUND_COLOR);
+		idText = new JTextField(4);
+		idPanel.add(idLabel); idPanel.add(idText);
+		add(idPanel);
+		
+		// Name
+		JPanel namePanel = new JPanel();
+		namePanel.setLayout(new BoxLayout(namePanel, BoxLayout.X_AXIS));
+		namePanel.setPreferredSize(new Dimension(370, 20));
+				
+		JLabel nameLabel = new JLabel("Name: ");
+		nameText = new JTextField(30);
+		namePanel.add(nameLabel); namePanel.add(nameText);
+		add(namePanel);
+	
+		// Age
+		JPanel agePanel = new JPanel();
+		agePanel.setLayout(new BoxLayout(agePanel, BoxLayout.X_AXIS));
+		agePanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel ageLabel = new JLabel("Age: ");
+		ageText = new JTextField(30);
+		agePanel.add(ageLabel); agePanel.add(ageText);
+		add(agePanel);
+		
+		// Sex
+		JPanel sexPanel = new JPanel();
+		sexPanel.setLayout(new BoxLayout(sexPanel, BoxLayout.X_AXIS));
+		sexPanel.setPreferredSize(new Dimension(370, 20));
+	
+		JLabel sexLabel = new JLabel("Sex: ");
+		sexText = new JTextField(30);
+		sexPanel.add(sexLabel); 
+		sexPanel.add(sexText);
+		add(sexPanel);
+		
+		// Sport
+		JPanel sportPanel = new JPanel();
+		sportPanel.setLayout(new BoxLayout(sportPanel, BoxLayout.X_AXIS));
+		sportPanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel sportLabel = new JLabel("Sport: ");
+		sportText = new JTextField(30);
+		sportPanel.add(sportLabel); 
+		sportPanel.add(sportText);
+		add(sportPanel);
+		
+		// Comittee
+		JPanel comitteePanel = new JPanel();
+		comitteePanel.setLayout(new BoxLayout(comitteePanel, BoxLayout.X_AXIS));
+		comitteePanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel comitteeLabel = new JLabel("Comittee: ");
+		committeeText = new JTextField(28);
+		comitteePanel.add(comitteeLabel); 
+		comitteePanel.add(committeeText);
+		add(comitteePanel);
+		
+		// Medal Gold
+		JPanel medalGoldPanel = new JPanel();
+		medalGoldPanel.setLayout(new BoxLayout(medalGoldPanel, BoxLayout.X_AXIS));
+		medalGoldPanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel medalGoldLabel = new JLabel("Gold: ");
+		medalGoldText = new JTextField(28);
+		medalGoldPanel.add(medalGoldLabel); 
+		medalGoldPanel.add(medalGoldText);
+		add(medalGoldPanel);
+		
+		// Medal Silver
+		JPanel medalSilverPanel = new JPanel();
+		medalSilverPanel.setLayout(new BoxLayout(medalSilverPanel, BoxLayout.X_AXIS));
+		medalSilverPanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel medalSilverLabel = new JLabel("Silver: ");
+		medalSilverText = new JTextField(28);
+		medalSilverPanel.add(medalSilverLabel); 
+		medalSilverPanel.add(medalSilverText);
+		add(medalSilverPanel);
+		
+		// Medal Bronze
+		JPanel medalBronzePanel = new JPanel();
+		medalBronzePanel.setLayout(new BoxLayout(medalBronzePanel, BoxLayout.X_AXIS));
+		medalBronzePanel.setPreferredSize(new Dimension(370, 20));
+		
+		JLabel medalBronzeLabel = new JLabel("Bronze: ");
+		medalBronzeText = new JTextField(28);
+		medalBronzePanel.add(medalBronzeLabel); 
+		medalBronzePanel.add(medalBronzeText);
+		add(medalBronzePanel);
+	}
+	
+	public void formatButtons(JPanel container) {
+		Button buttonUpdate = new Button("UPDATE", COLOR_GREEN_LIGHT_1);
+		Button buttonClear = new Button("CLEAR", COLOR_GRAY);
+		Button buttonExit = new Button("EXIT", COLOR_RED);
+
+		add(buttonUpdate);
+		actionInUpdate(buttonUpdate);
+		
+		add(buttonClear);
+		actionInClear(buttonClear);
+		
+		add(buttonExit);
+		actionInExit(buttonExit);
+		
+		container.add(buttonUpdate);
+		container.add(buttonClear);
+		container.add(buttonExit);
+		add(container);
+	}
+	
+	private void actionInUpdate(Button buttonUpdate) {
+		buttonUpdate.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				updateAthlete();
+			}
+		});
+	}
+	
+	private void actionInExit(Button buttonExit) {
+		buttonExit.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				setVisible(false);
+				dispose();
+			}
+		});
+	}
+
+	private void actionInClear(Button buttonClear) {
+		buttonClear.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				idText.setText("");
+				nameText.setText("");
+				ageText.setText("");
+				sexText.setText("");
+				committeeText.setText("");
+				sportText.setText("");
+				medalGoldText.setText("");
+				medalSilverText.setText("");
+				medalBronzeText.setText("");
+			}
+		});
+	}
 
 
 	public void readDataBaseAthlete() {
@@ -108,6 +269,56 @@ public class UpdateAthlete extends JFrame {
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error read database", "Erro Database", JOptionPane.ERROR_MESSAGE);
 		}
+	}
+	
+	
+	private void updateAthlete() {
+		
+		Connection connection = ConnectionFactory.getConnection();
+		
+		String select = "SELECT name, age, sex, committee, sport, gold, silver, bronze FROM athletes WHERE id = ?";
+		String update = "UPDATE athletes SET name = ?, age = ?, sex = ?, "
+				+ "committee = ?, sport = ?, gold = ?, silver = ?, bronze = ? WHERE id = " + idText.getText();
+		try {
+			PreparedStatement stmt = connection.prepareStatement(select);
+			stmt.setInt(1, Integer.parseInt(idText.getText()));
+				
+			ResultSet result = stmt.executeQuery();
+			
+			if (result.next()) {
+				OlympicAthlete athlete = new OlympicAthlete();
+				
+
+				// Atualizando
+				athlete.setId(Integer.parseInt(idText.getText()));
+				athlete.setName(nameText.getText());
+				athlete.setAge(Integer.parseInt(ageText.getText()));
+				athlete.setSex(sexText.getText());
+				athlete.setCommittee(committeeText.getText());
+				athlete.setSport(sportText.getText());
+				athlete.setMedals(Integer.parseInt(medalGoldText.getText()));
+				athlete.setMedals(Integer.parseInt(medalSilverText.getText()));
+				athlete.setMedals(Integer.parseInt(medalBronzeText.getText()));
+				
+				stmt.close();
+				stmt = connection.prepareStatement(update);
+			
+				stmt.setString(1, athlete.getName());
+				stmt.setInt(2, athlete.getAge());
+				stmt.setString(3, athlete.getSex());
+				stmt.setString(4, athlete.getCommittee());
+				stmt.setString(5, athlete.getSport());
+				stmt.setInt(6, athlete.getMedals().get(0));
+				stmt.setInt(7, athlete.getMedals().get(1));
+				stmt.setInt(8, athlete.getMedals().get(2));
+
+				stmt.execute();
+			}
+			
+		} catch (SQLException e) {
+			JOptionPane.showMessageDialog(null, "..."+ e.getMessage());
+		}
+		
 	}
 }
 
