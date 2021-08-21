@@ -90,7 +90,15 @@ public class MainScreen extends JFrame{
 			}
 		});
 	}
-	private void actionInDeleteAthlete(Button buttonDeleteAthlete) {}
+	private void actionInDeleteAthlete(Button buttonDeleteAthlete) {
+		buttonDeleteAthlete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new DeleteAthlete();
+			}
+		});
+	}
 	
 	public static void main(String[] args) {
 		new MainScreen();

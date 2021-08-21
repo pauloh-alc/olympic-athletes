@@ -244,6 +244,7 @@ public class CreateAthlete extends JFrame{
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				setVisible(false);
+				dispose();
 			}
 		});
 	}
