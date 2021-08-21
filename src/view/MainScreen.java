@@ -81,8 +81,15 @@ public class MainScreen extends JFrame{
 		});
 	}
 	
-	
-	private void actionInUpdateAthlete(Button buttonUpdateAthlete) {}
+	private void actionInUpdateAthlete(Button buttonUpdateAthlete) {
+		buttonUpdateAthlete.addActionListener(new ActionListener() {
+			
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				new UpdateAthlete();
+			}
+		});
+	}
 	private void actionInDeleteAthlete(Button buttonDeleteAthlete) {}
 	
 	public static void main(String[] args) {
