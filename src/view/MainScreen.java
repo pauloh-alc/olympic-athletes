@@ -1,11 +1,12 @@
 package view;
 
 import java.awt.BorderLayout;
-import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JPanel;
 
@@ -14,13 +15,8 @@ import connection.ConnectionFactory;
 @SuppressWarnings("serial")
 public class MainScreen extends JFrame{
 	
-	private final int SCREEN_WIDTH = 500;
+	private final int SCREEN_WIDTH = 700;
 	private final int SCREEN_HEIGHT = 500;
-	
-	private final Color COLOR_GREEN_LIGHT_1 = new Color(144,238,144);
-	private final Color COLOR_GREEN_LIGHT_2 = new Color(152,251,152);
-	private final Color COLOR_GREEN_LIGHT_3 = new Color(143,188,143);
-	private final Color COLOR_GREEN_LIGHT_4 = new Color(0,250,154);
 	
 	public MainScreen() {
 		formatLayout();
@@ -43,20 +39,24 @@ public class MainScreen extends JFrame{
 	}
 	
 	public void createButtons(JPanel containsButtons) {
-		Button buttonCreateAthlete = new Button("CREATE ATHLETE", COLOR_GREEN_LIGHT_1);
+		Icon iconCreate = new ImageIcon("img/create.png");
+		Button buttonCreateAthlete = new Button(iconCreate);
 		containsButtons.add(buttonCreateAthlete);
 		actionInCreatingAthlete(buttonCreateAthlete);
 		
 		
-		Button buttonReadAthlete = new Button("READ ATHLETE", COLOR_GREEN_LIGHT_2);
+		Icon iconRead = new ImageIcon("img/read.png");
+		Button buttonReadAthlete = new Button(iconRead);
 		containsButtons.add(buttonReadAthlete);
 		actionInReadAthlete(buttonReadAthlete);
 		
-		Button buttonUpdateAthlete = new Button("UPDATE ATHLETE", COLOR_GREEN_LIGHT_3);
+		Icon iconUpdate = new ImageIcon("img/update.png");
+		Button buttonUpdateAthlete = new Button(iconUpdate);
 		containsButtons.add(buttonUpdateAthlete);
 		actionInUpdateAthlete(buttonUpdateAthlete);
 		
-		Button buttonDeleteAthlete = new Button("DELETE ATHLETE", COLOR_GREEN_LIGHT_4);
+		Icon iconDelete = new ImageIcon("img/delete.png");
+		Button buttonDeleteAthlete = new Button(iconDelete);
 		containsButtons.add(buttonDeleteAthlete);
 		actionInDeleteAthlete(buttonDeleteAthlete);
 	}

@@ -30,9 +30,10 @@ import model.OlympicAthlete;
 @SuppressWarnings("serial")
 public class DeleteAthlete extends JFrame {
 	
-	private final Color BACKGROUND_COLOR = new Color(143,188,143);
-	private final Color COLOR_GREEN_LIGHT_1 = new Color(144,238,144);
-	private final Color COLOR_GRAY = new Color(220,220,220);
+	private final Color BACKGROUND_COLOR = new Color(134, 163, 195);
+	private final Color BACKGROUND_TABLE = new Color(157, 194, 236);
+	private final Color COLOR_BLUE_LIGHT = new Color(199,231,238);
+	private final Color COLOR_GRAY = new Color(192, 202, 214);
 	private final Color COLOR_RED = new Color(255,99,71);
 	
 	private final int SCREEN_WIDTH = 480;
@@ -41,9 +42,8 @@ public class DeleteAthlete extends JFrame {
 	private List<OlympicAthlete> listAthletes = new ArrayList<>();
 	private AthleteTableModel tableModel = new AthleteTableModel(listAthletes);
 	private JTable table = new JTable(tableModel);
-	JPanel panel;
+	private JPanel panel;
 
-	
 	private JTextField idText;
 	
 	public DeleteAthlete() {
@@ -53,10 +53,11 @@ public class DeleteAthlete extends JFrame {
 	private void formatUpdateAthlete() {
 		
 		setLayout(new FlowLayout());
-		setTitle("Update Athlete");
+		setTitle("Delete Athlete");
 		setSize(SCREEN_WIDTH, SCREEN_HIGHT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
+		getContentPane().setBackground(BACKGROUND_COLOR);
 		
 		readDataBaseAthlete();
 		
@@ -64,10 +65,11 @@ public class DeleteAthlete extends JFrame {
 		add(panel);
 		panel.add(table);
 		table.setPreferredScrollableViewportSize(new Dimension(440, 100));
-		table.setBackground(COLOR_GREEN_LIGHT_1);
+		table.setBackground(COLOR_BLUE_LIGHT);
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table);
+		scroll.getViewport().setBackground(BACKGROUND_TABLE);
 		panel.add(scroll);
 		
 		formatInput();
@@ -81,21 +83,19 @@ public class DeleteAthlete extends JFrame {
 	}
 	
 	public void formatInput() {
-		
-		// Id
 		JPanel idPanel = new JPanel();
 		idPanel.setLayout(new BoxLayout(idPanel, BoxLayout.X_AXIS));
 			
 		JLabel idLabel = new JLabel("ENTER THE ID: ");
-		idLabel.setForeground(BACKGROUND_COLOR);
+		idLabel.setForeground(Color.BLACK);
 		idText = new JTextField(4);
 		idPanel.add(idLabel); idPanel.add(idText);
+		idPanel.setBackground(BACKGROUND_COLOR);
 		add(idPanel);
-		
 	}
 	
 	public void formatButtons(JPanel container) {
-		Button buttonUpdate = new Button("DELETE", COLOR_GREEN_LIGHT_1);
+		Button buttonUpdate = new Button("DELETE", COLOR_BLUE_LIGHT);
 		Button buttonClear = new Button("CLEAR", COLOR_GRAY);
 		Button buttonExit = new Button("EXIT", COLOR_RED);
 
@@ -111,6 +111,7 @@ public class DeleteAthlete extends JFrame {
 		container.add(buttonUpdate);
 		container.add(buttonClear);
 		container.add(buttonExit);
+		container.setBackground(BACKGROUND_COLOR);
 		add(container);
 	}
 	
@@ -180,11 +181,6 @@ public class DeleteAthlete extends JFrame {
             statement.execute();
             
             JOptionPane.showMessageDialog(null, "Success to delete an athlete", "delete athlete", JOptionPane.INFORMATION_MESSAGE);
-           // readDataBaseAthlete();
-            tableModel.fireTableDataChanged();
-            //table = new JTable(tableModel);
-            //panel.add(table);
-
         } catch(SQLException e) {
             JOptionPane.showMessageDialog(null, "Error to delete an athlete", "Erro Database", JOptionPane.ERROR_MESSAGE);
         }
