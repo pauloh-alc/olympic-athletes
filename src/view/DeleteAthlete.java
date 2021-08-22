@@ -12,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -21,10 +20,10 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
+import javax.swing.table.DefaultTableModel;
 
 
 import connection.ConnectionFactory;
-import model.AthleteTableModel;
 import model.OlympicAthlete;
 
 @SuppressWarnings("serial")
@@ -40,10 +39,8 @@ public class DeleteAthlete extends JFrame {
 	private final int SCREEN_HIGHT = 230;
 	
 	private List<OlympicAthlete> listAthletes = new ArrayList<>();
-	private AthleteTableModel tableModel = new AthleteTableModel(listAthletes);
-	private JTable table = new JTable(tableModel);
+	private JTable table = new JTable();
 	private JPanel panel;
-
 	private JTextField idText;
 	
 	public DeleteAthlete() {
@@ -68,14 +65,18 @@ public class DeleteAthlete extends JFrame {
 		table.setBackground(COLOR_BLUE_LIGHT);
 		
 		JScrollPane scroll = new JScrollPane();
-		scroll.setViewportView(table);
 		scroll.getViewport().setBackground(BACKGROUND_TABLE);
+		
+		setModelTable();
+			
+		scroll.setViewportView(table);
 		panel.add(scroll);
 		
+		loadTable();
+
 		formatInput();
 		
 		JPanel container = new JPanel();
-		
 		
 		formatButtons(container);
 		
@@ -146,7 +147,6 @@ public class DeleteAthlete extends JFrame {
 		});
 	}
 
-
 	public void readDataBaseAthlete() {
 		Connection connection = ConnectionFactory.getConnection();
 		String sql = "SELECT * FROM athletes";
@@ -181,11 +181,66 @@ public class DeleteAthlete extends JFrame {
             statement.execute();
             
             JOptionPane.showMessageDialog(null, "Success to delete an athlete", "delete athlete", JOptionPane.INFORMATION_MESSAGE);
+
+			refreshListAthlete();			
+			loadTable();
+
         } catch(SQLException e) {
             JOptionPane.showMessageDialog(null, "Error to delete an athlete", "Erro Database", JOptionPane.ERROR_MESSAGE);
         }
     }
-	
+		
+		public void loadTable() {
+			DefaultTableModel model = (DefaultTableModel) table.getModel(); 
+			model.setNumRows(0);
+
+			table.getColumnModel().getColumn(0).setPreferredWidth(5);
+			table.getColumnModel().getColumn(1).setPreferredWidth(20);
+			table.getColumnModel().getColumn(2).setPreferredWidth(5);
+			table.getColumnModel().getColumn(3).setPreferredWidth(10);
+			table.getColumnModel().getColumn(4).setPreferredWidth(10);
+			table.getColumnModel().getColumn(5).setPreferredWidth(10);
+			table.getColumnModel().getColumn(6).setPreferredWidth(5);
+			table.getColumnModel().getColumn(7).setPreferredWidth(5);
+			table.getColumnModel().getColumn(8).setPreferredWidth(5);
+
+			try {
+				for(OlympicAthlete tempAthlete: listAthletes) {
+					model.addRow(new Object[] {
+						tempAthlete.getId(),
+						tempAthlete.getName(),
+						tempAthlete.getAge(),
+						tempAthlete.getSex(),
+						tempAthlete.getCommittee(),
+						tempAthlete.getSport(),
+						tempAthlete.getMedals().get(0),
+						tempAthlete.getMedals().get(1),
+						tempAthlete.getMedals().get(2)
+					} );
+				}
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(null, "Error to load the table on the database");
+			}
+		}
+
+		public void refreshListAthlete() {
+			for (OlympicAthlete a: listAthletes) {
+				if (a.getId() == Integer.parseInt(idText.getText())) {
+					listAthletes.remove(a);
+					break;
+				}
+			}
+		}
+
+		public void setModelTable() {
+			table.setModel(new DefaultTableModel(
+			new Object[][] {
+			},
+			new String[] {
+				"Id","Name", "Age", "Sex", "Committee", "Sport", "Gold", "Silver", "Bronze" 
+			}
+			));
+		}
 }
 
 

@@ -8,14 +8,12 @@ import java.awt.event.ActionListener;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
-
 import connection.ConnectionFactory;
 import model.OlympicAthlete;
 
@@ -140,7 +138,7 @@ public class CreateAthlete extends JFrame{
 		medalGoldPanel.setPreferredSize(new Dimension(370, 20));
 		medalGoldPanel.setBackground(BACKGROUND_COLOR);
 		
-		JLabel medalGoldLabel = new JLabel("Gold: ");
+		JLabel medalGoldLabel = new JLabel("Amount of Gold: ");
 		medalGoldText = new JTextField(28);
 		medalGoldPanel.add(medalGoldLabel); 
 		medalGoldPanel.add(medalGoldText);
@@ -152,7 +150,7 @@ public class CreateAthlete extends JFrame{
 		medalSilverPanel.setPreferredSize(new Dimension(370, 20));
 		medalSilverPanel.setBackground(BACKGROUND_COLOR);
 		
-		JLabel medalSilverLabel = new JLabel("Silver: ");
+		JLabel medalSilverLabel = new JLabel("Amount of Silver: ");
 		medalSilverText = new JTextField(28);
 		medalSilverPanel.add(medalSilverLabel); 
 		medalSilverPanel.add(medalSilverText);
@@ -164,7 +162,7 @@ public class CreateAthlete extends JFrame{
 		medalBronzePanel.setPreferredSize(new Dimension(370, 20));
 		medalBronzePanel.setBackground(BACKGROUND_COLOR);
 		
-		JLabel medalBronzeLabel = new JLabel("Bronze: ");
+		JLabel medalBronzeLabel = new JLabel("Amount of Bronze: ");
 		medalBronzeText = new JTextField(28);
 		medalBronzePanel.add(medalBronzeLabel); 
 		medalBronzePanel.add(medalBronzeText);
