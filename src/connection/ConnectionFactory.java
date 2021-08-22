@@ -20,7 +20,7 @@ public class ConnectionFactory {
 		}
 	}
 	
-	public static void createDataBase( ) {
+	public static void createDataBase() {
 		Connection connection = ConnectionFactory.getConnection();
 		
 		try {

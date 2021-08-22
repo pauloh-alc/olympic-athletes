@@ -25,11 +25,11 @@ public class CreateAthlete extends JFrame{
 	private final int SCREEN_WIDTH = 400;
 	private final int SCREEN_HEIGHT = 265;
 	
-	private final Color BACKGROUND_COLOR = new Color(152,251,152);
-	private final Color COLOR_GREEN_LIGHT_4 = new Color(0,250,154);
-	private final Color COLOR_GRAY = new Color(220,220,220);
+	private final Color BACKGROUND_COLOR = new Color(134, 163, 195);
+	private final Color COLOR_BLUE_DARK = new Color(28,210,66);
+	private final Color COLOR_BLUE_LIGHT = new Color(192, 202, 214);
 	private final Color COLOR_RED = new Color(255,99,71);
-	
+
 	private JTextField nameText;
 	private JTextField ageText;
 	private JTextField sexText;
@@ -59,8 +59,8 @@ public class CreateAthlete extends JFrame{
 	}
 
 	private void createButtons() {
-		Button buttonSave = new Button("SAVE", COLOR_GREEN_LIGHT_4);
-		Button buttonClear = new Button("CLEAR", COLOR_GRAY);
+		Button buttonSave = new Button("SAVE", COLOR_BLUE_DARK);
+		Button buttonClear = new Button("CLEAR", COLOR_BLUE_LIGHT);
 		Button buttonExit = new Button("EXIT", COLOR_RED);
 
 		add(buttonSave);
@@ -185,6 +185,7 @@ public class CreateAthlete extends JFrame{
 	private void addAthleteToDataBase() {
 		OlympicAthlete athlete = new OlympicAthlete();
 		
+		
 		athlete.setName(nameText.getText());
 		athlete.setAge(Integer.parseInt(ageText.getText()));
 		athlete.setSex(sexText.getText());
@@ -193,8 +194,7 @@ public class CreateAthlete extends JFrame{
 		athlete.setMedals(Integer.parseInt(medalGoldText.getText()));
 		athlete.setMedals(Integer.parseInt(medalSilverText.getText()));
 		athlete.setMedals(Integer.parseInt(medalBronzeText.getText()));
-
-		
+	
 		Connection connection = ConnectionFactory.getConnection();
 
 		String sql = "INSERT INTO athletes (name, age, sex, committee, sport, gold, silver, bronze) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
@@ -215,6 +215,7 @@ public class CreateAthlete extends JFrame{
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "Error insert athlete - " + e.getMessage(), "Database error", JOptionPane.ERROR_MESSAGE);
 		}
+		
 	}
 	
 	private void actionInClear(Button buttonClear) {

@@ -30,8 +30,9 @@ import model.OlympicAthlete;
 @SuppressWarnings("serial")
 public class UpdateAthlete extends JFrame {
 	
-	private final Color BACKGROUND_COLOR = new Color(143,188,143);
-	private final Color COLOR_GREEN_LIGHT_1 = new Color(144,238,144);
+	private final Color BACKGROUND_COLOR = new Color(134, 163, 195);
+	private final Color BACKGROUND_TABLE = new Color(157, 194, 236);
+	private final Color COLOR_BLUE_LIGHT = new Color(199,231,238);
 	private final Color COLOR_GRAY = new Color(220,220,220);
 	private final Color COLOR_RED = new Color(255,99,71);
 	
@@ -58,23 +59,24 @@ public class UpdateAthlete extends JFrame {
 
 	private void formatUpdateAthlete() {
 		
-		//setLayout(new BorderLayout());
 		setLayout(new FlowLayout());
 		setTitle("Update Athlete");
 		setSize(SCREEN_WIDTH, SCREEN_HIGHT);
 		setDefaultCloseOperation(DISPOSE_ON_CLOSE);
 		setLocationRelativeTo(null);
-		
+		getContentPane().setBackground(BACKGROUND_COLOR);
+
 		readDataBaseAthlete();
 		
 		JPanel panel = new JPanel();
 		add(panel);
 		panel.add(table);
 		table.setPreferredScrollableViewportSize(new Dimension(440, 100));
-		table.setBackground(COLOR_GREEN_LIGHT_1);
+		table.setBackground(COLOR_BLUE_LIGHT);
 		
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table);
+		scroll.getViewport().setBackground(BACKGROUND_TABLE);
 		panel.add(scroll);
 		
 		formatInput();
@@ -94,9 +96,10 @@ public class UpdateAthlete extends JFrame {
 		idPanel.setLayout(new BoxLayout(idPanel, BoxLayout.X_AXIS));
 			
 		JLabel idLabel = new JLabel("ENTER THE ID: ");
-		idLabel.setForeground(BACKGROUND_COLOR);
+		idLabel.setForeground(Color.BLACK);
 		idText = new JTextField(4);
 		idPanel.add(idLabel); idPanel.add(idText);
+		idPanel.setBackground(BACKGROUND_COLOR);
 		add(idPanel);
 		
 		// Name
@@ -107,8 +110,10 @@ public class UpdateAthlete extends JFrame {
 		JLabel nameLabel = new JLabel("Name: ");
 		nameText = new JTextField(30);
 		namePanel.add(nameLabel); namePanel.add(nameText);
+		namePanel.setBackground(BACKGROUND_COLOR);
 		add(namePanel);
-	
+		
+		
 		// Age
 		JPanel agePanel = new JPanel();
 		agePanel.setLayout(new BoxLayout(agePanel, BoxLayout.X_AXIS));
@@ -117,6 +122,7 @@ public class UpdateAthlete extends JFrame {
 		JLabel ageLabel = new JLabel("Age: ");
 		ageText = new JTextField(30);
 		agePanel.add(ageLabel); agePanel.add(ageText);
+		agePanel.setBackground(BACKGROUND_COLOR);
 		add(agePanel);
 		
 		// Sex
@@ -128,6 +134,7 @@ public class UpdateAthlete extends JFrame {
 		sexText = new JTextField(30);
 		sexPanel.add(sexLabel); 
 		sexPanel.add(sexText);
+		sexPanel.setBackground(BACKGROUND_COLOR);
 		add(sexPanel);
 		
 		// Sport
@@ -139,6 +146,7 @@ public class UpdateAthlete extends JFrame {
 		sportText = new JTextField(30);
 		sportPanel.add(sportLabel); 
 		sportPanel.add(sportText);
+		sportPanel.setBackground(BACKGROUND_COLOR);
 		add(sportPanel);
 		
 		// Comittee
@@ -150,6 +158,7 @@ public class UpdateAthlete extends JFrame {
 		committeeText = new JTextField(28);
 		comitteePanel.add(comitteeLabel); 
 		comitteePanel.add(committeeText);
+		comitteePanel.setBackground(BACKGROUND_COLOR);
 		add(comitteePanel);
 		
 		// Medal Gold
@@ -161,6 +170,7 @@ public class UpdateAthlete extends JFrame {
 		medalGoldText = new JTextField(28);
 		medalGoldPanel.add(medalGoldLabel); 
 		medalGoldPanel.add(medalGoldText);
+		medalGoldPanel.setBackground(BACKGROUND_COLOR);
 		add(medalGoldPanel);
 		
 		// Medal Silver
@@ -172,6 +182,7 @@ public class UpdateAthlete extends JFrame {
 		medalSilverText = new JTextField(28);
 		medalSilverPanel.add(medalSilverLabel); 
 		medalSilverPanel.add(medalSilverText);
+		medalSilverPanel.setBackground(BACKGROUND_COLOR);
 		add(medalSilverPanel);
 		
 		// Medal Bronze
@@ -183,11 +194,12 @@ public class UpdateAthlete extends JFrame {
 		medalBronzeText = new JTextField(28);
 		medalBronzePanel.add(medalBronzeLabel); 
 		medalBronzePanel.add(medalBronzeText);
+		medalBronzePanel.setBackground(BACKGROUND_COLOR);
 		add(medalBronzePanel);
 	}
 	
 	public void formatButtons(JPanel container) {
-		Button buttonUpdate = new Button("UPDATE", COLOR_GREEN_LIGHT_1);
+		Button buttonUpdate = new Button("UPDATE", COLOR_BLUE_LIGHT);
 		Button buttonClear = new Button("CLEAR", COLOR_GRAY);
 		Button buttonExit = new Button("EXIT", COLOR_RED);
 
@@ -203,6 +215,7 @@ public class UpdateAthlete extends JFrame {
 		container.add(buttonUpdate);
 		container.add(buttonClear);
 		container.add(buttonExit);
+		container.setBackground(BACKGROUND_COLOR);
 		add(container);
 	}
 	
@@ -271,7 +284,6 @@ public class UpdateAthlete extends JFrame {
 		}
 	}
 	
-	
 	private void updateAthlete() {
 		
 		Connection connection = ConnectionFactory.getConnection();
@@ -287,9 +299,7 @@ public class UpdateAthlete extends JFrame {
 			
 			if (result.next()) {
 				OlympicAthlete athlete = new OlympicAthlete();
-				
-
-				// Atualizando
+		
 				athlete.setId(Integer.parseInt(idText.getText()));
 				athlete.setName(nameText.getText());
 				athlete.setAge(Integer.parseInt(ageText.getText()));
@@ -315,10 +325,23 @@ public class UpdateAthlete extends JFrame {
 				stmt.execute();
 			}
 			
+			JOptionPane.showMessageDialog(null, "Athlete updated with sucess!", "Update", JOptionPane.INFORMATION_MESSAGE);
+			clear();
 		} catch (SQLException e) {
 			JOptionPane.showMessageDialog(null, "..."+ e.getMessage());
 		}
-		
+	}
+	
+	public void clear() {
+		idText.setText("");
+		nameText.setText("");
+		ageText.setText("");
+		sexText.setText("");
+		committeeText.setText("");
+		sportText.setText("");
+		medalGoldText.setText("");
+		medalSilverText.setText("");
+		medalBronzeText.setText("");
 	}
 }
 

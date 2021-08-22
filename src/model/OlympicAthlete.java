@@ -26,9 +26,7 @@ public class OlympicAthlete {
 		this.medals.add(bronze);
 	}
 	
-	public OlympicAthlete() {
-		
-	}
+	public OlympicAthlete() {}
 	
 	public int getId() {
 		return id;
