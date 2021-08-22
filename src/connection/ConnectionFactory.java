@@ -9,9 +9,9 @@ import javax.swing.JOptionPane;
 public class ConnectionFactory {
 	
 	public static Connection getConnection() {
-		String url = "jdbc:mysql://localhost/olympics";
+		String url = "jdbc:mysql://localhost/olympic_athletes";
 		String user = "root";
-		String password = "pauloalunoufc";
+		String password = "2505";
 		
 		try {
 			return DriverManager.getConnection(url, user, password);
