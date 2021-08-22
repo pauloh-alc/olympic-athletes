@@ -390,12 +390,14 @@ public class UpdateAthlete extends JFrame {
 				a.setSex(sexText.getText());
 				a.setCommittee(committeeText.getText());
 				a.setSport(sportText.getText());
+				a.getMedals().clear();
 				a.setMedals(Integer.parseInt(medalGoldText.getText()));
 				a.setMedals(Integer.parseInt(medalSilverText.getText()));
 				a.setMedals(Integer.parseInt(medalBronzeText.getText()));
 				break;
 			}
 		}
+
 	}
 
 	public void setModelTable() {
