@@ -1,6 +1,5 @@
 package view;
 
-
 import java.awt.Color;
 import java.awt.Dimension;
 import java.awt.FlowLayout;
@@ -13,7 +12,6 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
-
 import javax.swing.BoxLayout;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -22,9 +20,8 @@ import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
-
 import connection.ConnectionFactory;
-import model.AthleteTableModel;
+import javax.swing.table.DefaultTableModel;
 import model.OlympicAthlete;
 
 @SuppressWarnings("serial")
@@ -39,9 +36,8 @@ public class UpdateAthlete extends JFrame {
 	private final int SCREEN_WIDTH = 480;
 	private final int SCREEN_HIGHT = 430;
 	
-	private List<OlympicAthlete> listAthletes = new ArrayList<>();; 
-	private AthleteTableModel tableModel = new AthleteTableModel(listAthletes);;
-	private JTable table = new JTable(tableModel);;
+	private List<OlympicAthlete> listAthletes = new ArrayList<>();
+	private JTable table = new JTable();
 	
 	private JTextField idText;
 	private JTextField nameText;
@@ -77,8 +73,13 @@ public class UpdateAthlete extends JFrame {
 		JScrollPane scroll = new JScrollPane();
 		scroll.setViewportView(table);
 		scroll.getViewport().setBackground(BACKGROUND_TABLE);
+		
+		setModelTable();
+		
 		panel.add(scroll);
 		
+		loadTable();
+
 		formatInput();
 		
 		JPanel container = new JPanel();
@@ -166,7 +167,7 @@ public class UpdateAthlete extends JFrame {
 		medalGoldPanel.setLayout(new BoxLayout(medalGoldPanel, BoxLayout.X_AXIS));
 		medalGoldPanel.setPreferredSize(new Dimension(370, 20));
 		
-		JLabel medalGoldLabel = new JLabel("Gold: ");
+		JLabel medalGoldLabel = new JLabel("Amount of Gold: ");
 		medalGoldText = new JTextField(28);
 		medalGoldPanel.add(medalGoldLabel); 
 		medalGoldPanel.add(medalGoldText);
@@ -178,7 +179,7 @@ public class UpdateAthlete extends JFrame {
 		medalSilverPanel.setLayout(new BoxLayout(medalSilverPanel, BoxLayout.X_AXIS));
 		medalSilverPanel.setPreferredSize(new Dimension(370, 20));
 		
-		JLabel medalSilverLabel = new JLabel("Silver: ");
+		JLabel medalSilverLabel = new JLabel("Amount of Silver: ");
 		medalSilverText = new JTextField(28);
 		medalSilverPanel.add(medalSilverLabel); 
 		medalSilverPanel.add(medalSilverText);
@@ -190,7 +191,7 @@ public class UpdateAthlete extends JFrame {
 		medalBronzePanel.setLayout(new BoxLayout(medalBronzePanel, BoxLayout.X_AXIS));
 		medalBronzePanel.setPreferredSize(new Dimension(370, 20));
 		
-		JLabel medalBronzeLabel = new JLabel("Bronze: ");
+		JLabel medalBronzeLabel = new JLabel("Amount of Bronze: ");
 		medalBronzeText = new JTextField(28);
 		medalBronzePanel.add(medalBronzeLabel); 
 		medalBronzePanel.add(medalBronzeText);
@@ -325,6 +326,9 @@ public class UpdateAthlete extends JFrame {
 				stmt.execute();
 			}
 			
+			refreshListAthlete();
+			loadTable();
+			
 			JOptionPane.showMessageDialog(null, "Athlete updated with sucess!", "Update", JOptionPane.INFORMATION_MESSAGE);
 			clear();
 		} catch (SQLException e) {
@@ -343,5 +347,66 @@ public class UpdateAthlete extends JFrame {
 		medalSilverText.setText("");
 		medalBronzeText.setText("");
 	}
-}
+
+	public void loadTable() {
+		DefaultTableModel model = (DefaultTableModel) table.getModel(); 
+		model.setNumRows(0);
+
+		table.getColumnModel().getColumn(0).setPreferredWidth(5);
+		table.getColumnModel().getColumn(1).setPreferredWidth(20);
+		table.getColumnModel().getColumn(2).setPreferredWidth(5);
+		table.getColumnModel().getColumn(3).setPreferredWidth(10);
+		table.getColumnModel().getColumn(4).setPreferredWidth(10);
+		table.getColumnModel().getColumn(5).setPreferredWidth(10);
+		table.getColumnModel().getColumn(6).setPreferredWidth(5);
+		table.getColumnModel().getColumn(7).setPreferredWidth(5);
+		table.getColumnModel().getColumn(8).setPreferredWidth(5);
+
+		try {
+			for(OlympicAthlete tempAthlete: listAthletes) {
+				model.addRow(new Object[] {
+					tempAthlete.getId(),
+					tempAthlete.getName(),
+					tempAthlete.getAge(),
+					tempAthlete.getSex(),
+					tempAthlete.getCommittee(),
+					tempAthlete.getSport(),
+					tempAthlete.getMedals().get(0),
+					tempAthlete.getMedals().get(1),
+					tempAthlete.getMedals().get(2)
+				} );
+			}
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(null, "Error to load the table on the database");
+		}
+	}
+
+	public void refreshListAthlete() {
+		for (OlympicAthlete a: listAthletes) {
+			if (a.getId() == Integer.parseInt(idText.getText())) {
+				a.setId(Integer.parseInt(idText.getText()));
+				a.setName(nameText.getText());
+				a.setAge(Integer.parseInt(ageText.getText()));
+				a.setSex(sexText.getText());
+				a.setCommittee(committeeText.getText());
+				a.setSport(sportText.getText());
+				a.setMedals(Integer.parseInt(medalGoldText.getText()));
+				a.setMedals(Integer.parseInt(medalSilverText.getText()));
+				a.setMedals(Integer.parseInt(medalBronzeText.getText()));
+				break;
+			}
+		}
+	}
+
+	public void setModelTable() {
+		table.setModel(new DefaultTableModel(
+		new Object[][] {
+		},
+		new String[] {
+			"Id","Name", "Age", "Sex", "Committee", "Sport", "Gold", "Silver", "Bronze" 
+		}
+		));
+	}
+}	
+
 
